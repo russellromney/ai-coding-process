@@ -80,7 +80,13 @@ Categories that recur across projects:
 - Platform quirks — crippled system libraries, toolchain divergence
 - Build system churn — API changes between minor versions
 
-If the list grows past ~10 per project, pull it into `TRAPS.md` in the repo. The point is persistence.
+### Where traps live (three tiers by scope)
+
+- **Plan-scoped** — only relevant to this piece of work. Goes in the plan's Traps section inside `ROADMAP.md`.
+- **Project-scoped** — applies to any plan in this project. Standing "Known traps" section at the top of `ROADMAP.md`. Every new plan in the project should cite from it. Pull into `TRAPS.md` only if the list outgrows ROADMAP.
+- **Universal** — applies across every project. Lives in the global agent config (`~/.claude/CLAUDE.md` or equivalent). Things like "never git stash", "no silent failures", "don't start/stop services" already live there under Multi-Agent Safety and Fail-Fast — those are traps, organized by category.
+
+When a plan-scoped trap recurs in a second plan in the same project, promote it up to the project-scoped tier. When a project-scoped trap recurs across projects, promote it to the global config.
 
 ## The cold-handoff template
 
