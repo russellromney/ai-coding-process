@@ -1,38 +1,48 @@
 # ai-coding-process
 
-How I work with AI coders. Two docs:
+How I work with AI coders.
 
-- **[planning.md](./planning.md)** — the plan → execute → verify loop. Gap-based spec density, 4-beat workflow, cold-handoff template, trap compounding.
-- **[CODING_STANDARDS.md](./CODING_STANDARDS.md)** — coding guidelines that apply across projects. Testing, fail-fast, multi-agent safety, commit conventions.
+- **[planning.md](./planning.md)**: Plan → execute → verify loop. Gap-based spec density, 4-beat workflow, cold-handoff template, trap compounding.
+- **[CODING_STANDARDS.md](./CODING_STANDARDS.md)**: Global guidelines. Testing, fail-fast, multi-agent safety, commit conventions.
 
-The short version: plan with the most capable model you have, execute with a cheaper capable one once the plan is locked, verify with commands not vibes. Traps found in one project compound into every subsequent plan template — known bugs are forward-looking knowledge that survives the sessions that discovered them.
+Plan with capable models, execute with cheap ones, verify with commands. Traps compound into templates.
 
 ## Setup
+
+Clone to a predictable location:
 
 ```bash
 git clone git@github.com:russellromney/ai-coding-process.git ~/Documents/Github/ai-coding-process
 ```
 
-Then point your agent config at it. For Claude Code:
+Symlink `planning.md` into your agent config so it loads automatically:
 
 ```bash
-# planning.md as the canonical source; symlink into ~/.claude/
 ln -sf ~/Documents/Github/ai-coding-process/planning.md ~/.claude/planning.md
 ```
 
-Your `~/.claude/CLAUDE.md` (or equivalent) should have a line telling the agent where to find the planning doc, e.g.:
+Make `CODING_STANDARDS.md` the canonical general rules — don't duplicate its content in your agent config. A minimal `~/.claude/CLAUDE.md` (or equivalent) looks like:
 
-> Non-trivial work follows a plan → execute → verify loop. Process and templates live in `~/.claude/planning.md`. Plans per project go in that repo's `ROADMAP.md`.
+```markdown
+# Personal agent config
 
-The standards doc is for reference. Either adapt pieces into your global agent config, or link to it from there.
+General coding rules live in:
+- ~/Documents/Github/ai-coding-process/CODING_STANDARDS.md
+- ~/.claude/planning.md (workflow)
+
+Read those first. What follows is personal overrides and local infra.
+
+## My terminal / secrets / dotfiles setup
+[personal stuff here]
+```
+
+The public repo stays the single source of truth for general rules; your private config is just the personal deltas. No duplication, no drift.
 
 ## Adapting
 
-The docs are opinionated and first-person. Fork freely and swap in your own conventions. The parts worth keeping as-is:
+Fork and swap conventions. Keep these:
 
-- The gap framing (spec density matches the context gap between planner and executor)
-- The 7-section cold-handoff template
-- Trap compounding — the habit of naming every bug you've seen once so downstream plans avoid it
-- Verify with commands, not reports
-
-The rest is taste.
+- **Gap framing**: Spec density matches the context gap between planner and executor.
+- **7-section cold-handoff template**.
+- **Trap compounding**: Name every bug once to avoid it forever.
+- **Verify with commands**, not reports.
