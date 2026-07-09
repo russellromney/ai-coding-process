@@ -41,6 +41,9 @@ Plan with expensive models, execute with cheap ones, verify with commands. Templ
 - **Real infrastructure.** No mocks.
 - **No skipped tests.** Pre-existing failures are bugs; fix them. Redesign code if untestable.
 - **Quality over quantity.** 100 tests catching real bugs beat 1000 checking boxes.
+- **Revert-proof tests.** A proving test must fail when the fix it proves is disabled.
+  Check by reverting/neutering the fix at the call site, not the helper — a guard that
+  is unit-tested but never wired in is vacuous. A test that passes anyway proves nothing.
 
 ## Fail fast, no silent failures
 
@@ -55,6 +58,14 @@ Plan with expensive models, execute with cheap ones, verify with commands. Templ
   - Ask before running any git command.
   - NEVER use `git stash`. Commit instead.
   - NEVER use `git checkout -- <file>` or `git restore` to discard changes.
+- **Worktrees:** One branch = one worktree; a branch can only be checked out once, so a
+  reviewer works in the fix agent's existing worktree and pushes to the same PR branch.
+  Create worktrees as siblings of the main checkout so relative paths (`../dep`) resolve.
+- **Wave pattern for critical work:** fix agent → PR → fresh-eyes adversarial
+  reviewer-fixer on the same branch → CI green → merge. The reviewer verifies tests are
+  load-bearing (revert-proof rule) and hunts wrong-reason passes; findings are fixed
+  until the plan is satisfied, and anything deferred is recorded in a register — nothing
+  vanishes silently. Agent final messages are structured data for the orchestrator, not prose.
 
 ## Commits and pull requests
 
